@@ -1,0 +1,42 @@
+{
+  "name": "@ngx-mercadopago",
+  "version": "0.0.1",
+  "description": "An Angular wrapper for Mercado Pago SDK for JavaScript",
+  "author": {
+    "email": "gab@thinkapp.studio",
+    "name": "Gabriel Fiocchi",
+    "url": "https://thinkapp.studio"
+  },
+  "peerDependencies": {
+    "@angular/common": "^10.0.14",
+    "@angular/core": "^10.0.14"
+  },
+  "dependencies": {
+    "tslib": "^2.0.0"
+  },
+  "scripts": {
+    "start": "ng build ngx-mercadopago --watch",
+    "build": "ng generate library ngx-mercadopago; ng build"
+  },
+  "repository": {
+    "url": "https://github.com/gabfiocchi/ngx-mercadopago",
+    "type": "git"
+  },
+  "bugs": {
+    "url": "https://github.com/gabfiocchi/ngx-mercadopago/issues"
+  },
+  "homepage": "https://github.com/gabfiocchi/ngx-mercadopago",
+  "keywords": [
+    "angular",
+    "angular 6",
+    "angular 7",
+    "angular 8",
+    "angular 9",
+    "angular 10",
+    "ionic",
+    "ionic-angular",
+    "mercadolibre",
+    "mercadopago"
+  ],
+  "license": "MIT"
+}

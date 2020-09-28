@@ -6,5 +6,12 @@
 */
 {
   "files": [],
-  "references": []
+  "references": [
+    {
+      "path": "./projects/ngx-mercadopago/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/ngx-mercadopago/tsconfig.spec.json"
+    }
+  ]
 }
