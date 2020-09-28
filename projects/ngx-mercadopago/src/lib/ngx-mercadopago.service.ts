@@ -1,5 +1,5 @@
-import { Injectable, InjectionToken } from '@angular/core';
-import { MercadopagoSDk, PaymentMethod, PaymentForm } from './interfaces/mercadopago-sdk';
+import { InjectionToken } from '@angular/core';
+import { MercadopagoSDk, PaymentMethod, PaymentForm, CardInstallment, PaymentMethodSearch, CardToken, Installments, ErrorData } from './interfaces/mercadopago-sdk';
 import { NgxMercadopagoConfiguration } from './interfaces/ngx-mercadopago';
 import { bindCallback } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -10,12 +10,7 @@ const pathSDK = 'https://secure.mlstatic.com/sdk/javascript/v1/mercadopago.js';
 export const ConfigToken = new InjectionToken<NgxMercadopagoConfiguration>('config');
 
 declare var Mercadopago: MercadopagoSDk;
-
-@Injectable({
-  providedIn: 'root'
-})
 export class NgxMercadopagoService {
-
   initialized: boolean;
   constructor(
     private config: NgxMercadopagoConfiguration,
@@ -27,11 +22,11 @@ export class NgxMercadopagoService {
     this.initialized = false;
   }
 
-  initialize(): Promise<MercadopagoSDk> {
+  initialize(publishKey?: string): Promise<MercadopagoSDk> {
     return new Promise((resolve, reject) => {
       this.loadMPScript(this.config.pathSDK).onload = () => {
         this.initialized = true;
-        Mercadopago.setPublishableKey(this.config.publishKey);
+        Mercadopago.setPublishableKey(publishKey || this.config.publishKey);
 
         return resolve(Mercadopago);
       };
@@ -48,6 +43,22 @@ export class NgxMercadopagoService {
     return script;
   }
 
+  async clearSession() {
+    Mercadopago.clearSession();
+  };
+
+  getPaymentMethod(card: PaymentMethodSearch) {
+    return bindCallback(Mercadopago.getPaymentMethod)(card).pipe(
+      map(([status, resp]) => {
+        if (status === 200) {
+          return { status, data: <PaymentMethod[]>resp, error: <ErrorData>null };
+        } else {
+          return { status, data: <PaymentMethod[]>null, error: <ErrorData>resp };
+        }
+      })
+    )
+  }
+
   getPaymentMethods(): PaymentMethod[] {
     return Mercadopago.getPaymentMethods();
   }
@@ -58,9 +69,27 @@ export class NgxMercadopagoService {
     )
   }
 
+  getInstallments(card: CardInstallment) {
+    return bindCallback(Mercadopago.getInstallments)(card).pipe(
+      map(([status, resp]) => {
+        if (status === 200) {
+          return { status, data: <Installments[]>resp, error: <ErrorData>null };
+        } else {
+          return { status, data: <Installments[]>null, error: <ErrorData>resp };
+        }
+      })
+    )
+  }
+
   createToken(form: PaymentForm) {
     return bindCallback(Mercadopago.createToken)(form).pipe(
-      map(([status, data]) => ({ status, data }))
+      map(([status, resp]) => {
+        if (status === 200) {
+          return { status, data: <CardToken>resp, error: <ErrorData>null };
+        } else {
+          return { status, data: <CardToken>null, error: <ErrorData>resp };
+        }
+      })
     )
   }
 }

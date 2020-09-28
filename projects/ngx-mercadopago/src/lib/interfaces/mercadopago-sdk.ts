@@ -5,10 +5,9 @@ export interface MercadopagoSDk {
     clearSession: () => void;
     // createDeviceProfile: ƒ n(n)
     createDeviceProfile: void;
-    // createToken: ƒ a(e, t)
     createToken: (
         form: PaymentForm,
-        callback: ((status: number, data: CardToken) => void)
+        callback: ((status: number, data: CardToken | ErrorData) => void)
     ) => void;
     deviceProfileId: string;
     // getAllPaymentMethods: ƒ (t)
@@ -16,13 +15,16 @@ export interface MercadopagoSDk {
     getIdentificationTypes: (
         callback: ((status: number, data: IdentificationType[]) => void)
     ) => void;
-    // status: number, data: IdentificationType[]
-    // getInstallments: ƒ (t, r)
-    getInstallments: void;
+    getInstallments: (
+        card: CardInstallment,
+        callback: ((status: number, data: Installments[] | ErrorData) => void)
+    ) => void;
     // getIssuers: ƒ (t, n)
     getIssuers: void;
-    // getPaymentMethod: ƒ (t, a)
-    getPaymentMethod: void;
+    getPaymentMethod: (
+        card: PaymentMethodSearch,
+        callback: ((status: number, data: PaymentMethod[] | ErrorData) => void)
+    ) => void;
     getPaymentMethods: () => PaymentMethod[];
     initMercadopago: () => void;
     initialized: boolean;
@@ -66,6 +68,11 @@ export interface PaymentMethod {
     accreditation_time: number;
     financial_institutions: any[];
     processing_modes: string[];
+}
+
+export interface PaymentMethodSearch {
+    payment_method_id?: string;
+    bin?: number | string;
 }
 
 export interface Setting {
@@ -136,4 +143,48 @@ export interface Cardholder {
 export interface Identification {
     number: string;
     type: string;
+}
+
+export interface CardInstallment {
+    payment_type_id?: 'credit_card' | 'debit_card' | 'ticket';
+    payment_method_id?: string;
+    bin?: number | string;
+}
+export interface Installments {
+    payment_method_id: string;
+    payment_type_id: string;
+    issuer: Issuer;
+    processing_mode: string;
+    merchant_account_id?: any;
+    payer_costs: PayerCost[];
+    agreements?: any;
+}
+
+export interface PayerCost {
+    installments: number;
+    installment_rate: number;
+    discount_rate: number;
+    reimbursement_rate?: number;
+    labels: string[];
+    installment_rate_collector: string[];
+    min_allowed_amount: number;
+    max_allowed_amount: number;
+    recommended_message: string;
+    installment_amount?: number;
+    total_amount?: number;
+    payment_method_option_id: string;
+}
+
+export interface Issuer {
+    id: string;
+    name: string;
+    secure_thumbnail: string;
+    thumbnail: string;
+}
+
+export interface ErrorData {
+    cause: any[];
+    error: string;
+    message: string;
+    status: number;
 }
