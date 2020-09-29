@@ -1,6 +1,6 @@
 {
   "name": "ngx-mercadopago",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "An Angular wrapper for Mercado Pago SDK for JavaScript",
   "author": {
     "email": "gab@thinkapp.studio",

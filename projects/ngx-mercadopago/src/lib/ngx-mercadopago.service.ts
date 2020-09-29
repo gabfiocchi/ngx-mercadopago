@@ -24,14 +24,15 @@ export class NgxMercadopagoService {
 
   initialize(publishKey?: string): Promise<MercadopagoSDk> {
     return new Promise((resolve, reject) => {
-      this.loadMPScript(this.config.pathSDK).onload = () => {
+      const sdkMercadoPago = this.loadMPScript(this.config.pathSDK);
+
+      sdkMercadoPago.onload = () => {
         this.initialized = true;
         Mercadopago.setPublishableKey(publishKey || this.config.publishKey);
 
         return resolve(Mercadopago);
       };
-
-      this.loadMPScript(this.config.pathSDK).onerror = (error) => reject(error);
+      sdkMercadoPago.onerror = (error) => reject(error);
     });
   }
 
