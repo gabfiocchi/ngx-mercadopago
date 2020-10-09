@@ -35,12 +35,12 @@ This method allows you to configure the `NgxMercadoPago` by specifying a publish
 ```ts
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { NgxMercadoPago } from 'ngx-mercadopago';
+import {  NgxMercadopagoModule } from 'ngx-mercadopago';
 
 @NgModule({
     imports: [
         BrowserModule,
-        NgxMercadoPago.forRoot({
+         NgxMercadopagoModule.forRoot({
             publishKey: 'Your Publish Key',
             pathSDK: 'https://secure.mlstatic.com/sdk/javascript/v1/mercadopago.js'
         })
