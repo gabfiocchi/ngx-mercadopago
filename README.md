@@ -24,7 +24,7 @@ Copy the public key in the [credentials](https://www.mercadopago.com.ar/develope
 
 ## Usage
 
-#### 1. Import the `NgxMercadoPago`:
+#### 1. Import the `NgxMercadopagoModule`:
 
 Finally, you can use ngx-mercadopago in your Angular project. You have to import `NgxMercadoPago.forRoot()` in the root NgModule of your application.
 
@@ -35,12 +35,12 @@ This method allows you to configure the `NgxMercadoPago` by specifying a publish
 ```ts
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import {  NgxMercadopagoModule } from 'ngx-mercadopago';
+import { NgxMercadopagoModule } from 'ngx-mercadopago';
 
 @NgModule({
     imports: [
         BrowserModule,
-         NgxMercadopagoModule.forRoot({
+        NgxMercadopagoModule.forRoot({
             publishKey: 'Your Publish Key',
             pathSDK: 'https://secure.mlstatic.com/sdk/javascript/v1/mercadopago.js'
         })
@@ -50,7 +50,43 @@ import {  NgxMercadopagoModule } from 'ngx-mercadopago';
 export class AppModule { }
 ```
 
+#### 2. Import the `NgxMercadopagoService`:
+```ts
+...
+import { NgxMercadopagoService } from 'ngx-mercadopago';
+...
 
+export class MpPaymentPage implements OnInit {
+    constructor(
+        private ngxMpService: NgxMercadopagoService
+    ) { }
+    
+    ngOnInit() {
+        await this.ngxMpService.initialize();
+    }
+
+    getPaymentMethods() {
+        const PaymentMethods = this.ngxMpService.getPaymentMethods();
+    }
+
+    async createToken() {
+        const cardToken = await this.ngxMpService.createToken(form).toPromise();
+    }
+
+    async getInstallments() {
+        const issuer = await this.ngxMpService.getInstallments({
+          payment_type_id: 'XX',
+          payment_method_id: 0,
+          bin: 000000
+        }).toPromise();
+    }
+    async getPaymentMethod() {
+        const paymentMethod = await this.ngxMpService.getPaymentMethod({
+            bin: 0000 
+        }).toPromise();
+    }
+}
+```
 
 ## Issues
 
