@@ -93,4 +93,11 @@ export class NgxMercadopagoService {
       })
     )
   }
+
+  validateExpiryDate(date: string): boolean {
+    return Mercadopago.validateExpiryDate(date);
+  }
+  validateExpiryMonthYear(month: string, year: string): boolean {
+    return Mercadopago.validateExpiryDate(month, year);
+  }
 }

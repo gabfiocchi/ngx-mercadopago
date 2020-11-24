@@ -44,7 +44,7 @@ export interface MercadopagoSDk {
     // validateCardholderName: ƒ d(e)
     validateCardholderName: () => void;
     // validateExpiryDate: ƒ l(e, t)
-    validateExpiryDate: () => void;
+    validateExpiryDate: (key1: string, key2?: string) => boolean;
     // validateIdentification: ƒ s(e, t)
     validateIdentification: () => void;
     // validateLuhn: ƒ o(e)
