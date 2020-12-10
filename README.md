@@ -8,6 +8,8 @@ An Angular wrapper for Mercado Pago SDK for JavaScript.
 
 Angular 6 or higher.
 
+**To go to production it is necessary that you have an SSL certificate and that the payment form be made available on an HTTPS page.**
+
 ## 📲 Installation 
 
 First time using Mercado Pago? Create your [Mercado Pago account](https://www.mercadopago.com), if you don’t have one already.
@@ -84,6 +86,27 @@ export class MpPaymentPage implements OnInit {
         const paymentMethod = await this.ngxMpService.getPaymentMethod({
             bin: 0000 
         }).toPromise();
+    }
+}
+```
+
+## Cordova / Ionic
+```xml
+<platform name="android">
+    <preference name="Scheme" value="https" />
+</platform>
+
+<platform name="ios">
+    <preference name="Hostname" value="myName" />
+</platform>
+```
+
+## Capacitor
+```json
+{
+    "server": {
+        "androidScheme": "https",
+        "iosScheme": "myName"
     }
 }
 ```
